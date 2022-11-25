@@ -23,6 +23,11 @@ public class Card : MonoBehaviour
             isFaceUp = value;
             cardBack.SetActive(!value);
         }
-    }   
+    }
+
+    public void OnMouseUpAsButton()
+    {
+        Loot.S.CardClicked(this);
+    }
 
 }

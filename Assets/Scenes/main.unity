@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194230}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -340,9 +341,13 @@ MonoBehaviour:
   goldPip: {fileID: 3302362740106279616, guid: f824ba6bacca74a0eb291a6587605291, type: 3}
   skullPip: {fileID: 6776602186313462695, guid: bd704ec8e01dd4c31baebb7bf402bac9, type: 3}
   cardBack: {fileID: 1276709903985510624, guid: c00572220093a4fcebedb37fdaec9d04, type: 3}
+  greenCaptain: {fileID: 5910983380305103892, guid: 8d801fcf63537412b87891284883f785, type: 3}
+  blueCaptain: {fileID: 2180266661485621476, guid: ca19654e06d2d456aa106ec3e943076d, type: 3}
+  yellowCaptain: {fileID: 1601462583539706205, guid: c298a58cce42d4782a101d437208e4e5, type: 3}
+  purpleCaptain: {fileID: 2384995660468744015, guid: a37ace533df7642dcb35354a93c143ec, type: 3}
+  admiral: {fileID: 1071168596494932971, guid: 4cd3b55a990924bd7ad7e7e46c82b930, type: 3}
   pipStart: {x: -0.4, y: 0.6}
   pipSize: 0.125
-  pipsPerRow: 7
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,3 +381,16 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3296e1a569e8f4094bf949a3013fd41c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deck: {fileID: 0}
