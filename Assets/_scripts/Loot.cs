@@ -12,6 +12,10 @@ public class Loot : MonoBehaviour
     public Transform drawPile;
     public Transform discardPile;
 
+    public List<Player> players;
+    public AIPlayer AIPlayerPrefab;
+    public Player humanPlayerPrefab;
+
     private void Awake()
     {
         S = this;
@@ -20,11 +24,16 @@ public class Loot : MonoBehaviour
     private void Start()
     {
         initDeck = GetComponent<Deck>();
+        players = new List<Player>();
 
         initDeck.CreateDeck();
         deck = initDeck.GetDeck();
 
         initDeck.MoveDeck(drawPile.position);
+
+        players.Add(humanPlayerPrefab);
+
+        startGame();
     }
 
     Card Draw()
@@ -34,8 +43,17 @@ public class Loot : MonoBehaviour
         return cd;
     }
 
-    public void CardClicked(Card cd)
+    public void startGame()
     {
+        for (int i = 0; i < 5; i++)
+        {
+            players[0].drawCard(Draw());
+        }
+    }
+
+    public void CardClicked(Card cd, bool isPlayer)
+    {
+
         switch (cd.state)
         {
             case cardState.deck:
@@ -50,6 +68,8 @@ public class Loot : MonoBehaviour
             case cardState.battle:
                 break;
         }
+
+        print(cd.name);
     }
 
 }

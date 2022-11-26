@@ -10,12 +10,15 @@ public class Deck : MonoBehaviour
     public GameObject goldPip;
     public GameObject skullPip;
     public GameObject cardBack;
+    public GameObject faceDecorPref;
 
-    public GameObject greenCaptain;
-    public GameObject blueCaptain;
-    public GameObject yellowCaptain;
-    public GameObject purpleCaptain;
-    public GameObject admiral;
+    public Sprite greenCaptain;
+    public Sprite blueCaptain;
+    public Sprite yellowCaptain;
+    public Sprite purpleCaptain;
+    public Sprite admiral;
+    public Sprite merchantShip;
+    public Sprite pirateShip;
 
     public Vector2 pipStart;
     public float pipSize;
@@ -141,6 +144,17 @@ public class Deck : MonoBehaviour
         deck = tempDeck;
     }
 
+    GameObject getFaceDecor(Sprite decor, Transform parent)
+    {
+        GameObject thisObj = Instantiate(faceDecorPref);
+        thisObj.GetComponent<SpriteRenderer>().sprite = decor;
+
+        thisObj.transform.position = parent.transform.position;
+        thisObj.transform.parent = parent.transform;
+
+        return thisObj;
+    }
+
     PirateCard CreatePirate(int str, cardColor color)
     {
         GameObject thisCard = Instantiate(cardTemplate);
@@ -178,6 +192,8 @@ public class Deck : MonoBehaviour
             pip.transform.parent = thisPirate.transform;
         }
 
+        getFaceDecor(pirateShip, thisPirate.transform);
+
         thisPirate.cardBack = Instantiate(cardBack);
         thisPirate.cardBack.transform.parent = thisPirate.transform;
         thisPirate.cardBack.transform.position = thisPirate.transform.position;
@@ -203,37 +219,32 @@ public class Deck : MonoBehaviour
         CaptainCard thisCapt = thisCard.GetComponent<CaptainCard>();
         SetTrimColor(thisCard, color);
 
-        GameObject thisDecor;
-
         switch (color)
         {
             case cardColor.green:
-                thisDecor = Instantiate(greenCaptain);
+                getFaceDecor(greenCaptain, thisCapt.transform);
                 break;
 
             case cardColor.blue:
-                thisDecor = Instantiate(blueCaptain);
+                getFaceDecor(blueCaptain, thisCapt.transform);
                 break;
 
             case cardColor.yellow:
-                thisDecor = Instantiate(yellowCaptain);
+                getFaceDecor(yellowCaptain, thisCapt.transform);
                 break;
 
             case cardColor.purple:
-                thisDecor = Instantiate(purpleCaptain);
+                getFaceDecor(purpleCaptain, thisCapt.transform);
                 break;
 
             case cardColor.admiral:
-                thisDecor = Instantiate(admiral);
+                getFaceDecor(admiral, thisCapt.transform);
                 break;
 
             default:
-                thisDecor = null;
+                getFaceDecor(null, thisCapt.transform);
                 break;
         }
-
-        thisDecor.transform.parent = thisCapt.transform;
-        thisDecor.transform.position = thisCapt.transform.position;
 
         thisCapt.cardBack = Instantiate(cardBack);
         thisCapt.cardBack.transform.parent = thisCapt.transform;
@@ -332,6 +343,8 @@ public class Deck : MonoBehaviour
             pip.transform.position = pipPos;
             pip.transform.parent = thisMerch.transform;
         }
+
+        getFaceDecor(merchantShip, thisMerch.transform);
 
         thisMerch.cardBack = Instantiate(cardBack);
         thisMerch.cardBack.transform.parent = thisMerch.transform;

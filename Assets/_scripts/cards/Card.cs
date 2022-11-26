@@ -11,6 +11,9 @@ public class Card : MonoBehaviour
     public GameObject cardBack;
     public cardState state;
 
+    private Vector3 orPos;
+    private bool hover;
+
     public bool faceUp
     {
         get
@@ -25,9 +28,33 @@ public class Card : MonoBehaviour
         }
     }
 
+    private void OnMouseEnter()
+    {
+        if (state == cardState.hand)
+        {
+            orPos = transform.position;
+            transform.position += transform.up * .25f;
+            hover = true;
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (hover)
+        {
+            transform.position = orPos;
+            hover = false;
+        }
+    }
+
+    public void AIClicked()
+    {
+        Loot.S.CardClicked(this, false);
+    }
+
     public void OnMouseUpAsButton()
     {
-        Loot.S.CardClicked(this);
+        Loot.S.CardClicked(this, true);
     }
 
 }
