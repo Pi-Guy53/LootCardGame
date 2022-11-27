@@ -37,6 +37,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public virtual void WaitingForInput()
+    {
+        //highlight all possible battles to join
+    }
+
     public void DisplayHand()
     {
         for(int i = 0; i<hand.Count; i++)

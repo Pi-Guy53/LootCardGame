@@ -23,4 +23,9 @@ public class Battle : MonoBehaviour
     {
         //check battle win conditons
     }
+
+    public bool addToBattle(int playerID, Card cd)
+    {
+        return false;
+    }
 }

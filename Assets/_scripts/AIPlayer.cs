@@ -16,6 +16,11 @@ public class AIPlayer : Player
         //take an action
     }
 
+    public override void WaitingForInput()
+    {
+        //choose battle to join
+    }
+
     /**
      * Actions: 
      * Draw Card (no card limit)

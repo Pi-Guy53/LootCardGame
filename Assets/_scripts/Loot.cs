@@ -16,6 +16,9 @@ public class Loot : MonoBehaviour
     public AIPlayer AIPlayerPrefab;
     public Player humanPlayerPrefab;
 
+    public int currentTurn;
+    private bool waitingForPlayerInput;
+
     private void Awake()
     {
         S = this;
@@ -51,25 +54,52 @@ public class Loot : MonoBehaviour
         }
     }
 
-    public void CardClicked(Card cd, bool isPlayer)
+    public void CardClicked(Card cd, bool isHumanPlayer)
     {
-
-        switch (cd.state)
+        if (isHumanPlayer && currentTurn == 0 || !isHumanPlayer)
         {
-            case cardState.deck:
-                break;
 
-            case cardState.hand:
-                break;
+            switch (cd.state)
+            {
+                case cardState.deck:
+                    players[currentTurn].drawCard(Draw());
+                    break;
 
-            case cardState.discard:
-                break;
+                case cardState.hand:
+                    playCardFromHand(cd);
+                    break;
 
-            case cardState.battle:
-                break;
+                case cardState.discard:
+                case cardState.battle:
+                    break;
+            }
         }
+    }
 
-        print(cd.name);
+    public void BattleClicked()
+    {
+        players[currentTurn].WaitingForInput();
+    }
+
+    void createBattle()
+    {
+        //place a merchant card, and make a new merchant battle for this player
+    }
+
+    void playCardFromHand(Card cd)
+    {
+        if(cd.GetComponent<MerchantCard>())
+        {
+            createBattle();
+        }
+        else if(cd.GetComponent<PirateCard>())
+        {
+            BattleClicked();
+        }
+        else if(cd.GetComponent<CaptainCard>())
+        {
+            BattleClicked();
+        }
     }
 
 }
