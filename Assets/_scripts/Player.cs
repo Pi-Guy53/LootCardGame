@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public Transform handAnchor;
     public int playerID;
 
+    public Transform homeWaters;
+
     private bool isTurn;
 
     public virtual void StartTurn()
@@ -15,11 +17,18 @@ public class Player : MonoBehaviour
         isTurn = true;
     }
 
+    public Vector3 HomeWaters()
+    {
+        //Temp until I figure out positioning logic
+        return homeWaters.position;
+    }
+
     public void drawCard(Card cd)
     {
         hand.Add(cd);
         cd.state = cardState.hand;
         cd.transform.parent = handAnchor;
+        cd.transform.rotation = handAnchor.transform.rotation;
 
         DisplayHand();
     }
@@ -44,11 +53,35 @@ public class Player : MonoBehaviour
 
     public void DisplayHand()
     {
-        for(int i = 0; i<hand.Count; i++)
+        if (hand.Count < 11)
         {
-            hand[i].transform.position = handAnchor.transform.position + transform.right * ((hand.Count / 2) - i);
-            hand[i].faceUp = true;
+            for (int i = 0; i < hand.Count; i++)
+            {
+                hand[i].transform.position = handAnchor.transform.position + transform.right * ((hand.Count / 1) - (i * 2)) + transform.forward * i;
+                hand[i].faceUp = true;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < hand.Count; i++)
+            {
+                hand[i].transform.position = handAnchor.transform.position + transform.right * ((hand.Count / 3) - (i / 1.5f)) + transform.forward * i;
+                hand[i].sortingOrder = (hand.Count - i) * 5;
+                hand[i].faceUp = true;
+            }
         }
     }
 
+    public bool containsCard(Card cd)
+    {
+        for (int i = 0; i < hand.Count; i++)
+        {
+            if (cd == hand[i])
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

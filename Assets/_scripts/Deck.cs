@@ -208,6 +208,8 @@ public class Deck : MonoBehaviour
         thisPirate.transform.parent = deckAnchor;
         thisPirate.transform.position = deckAnchor.position;
 
+        thisPirate.transform.localScale *= 2;
+
         return thisPirate;
     }
 
@@ -259,36 +261,14 @@ public class Deck : MonoBehaviour
         thisCapt.transform.parent = deckAnchor;
         thisCapt.transform.position = deckAnchor.position;
 
+        thisCapt.transform.localScale *= 2;
+
         return thisCapt;
     }
 
     void SetTrimColor(GameObject cd, cardColor col)
     {
-        Color color = Color.white;
-        switch (col)
-        {
-            case cardColor.green:
-                color = Color.green;
-                break;
-
-            case cardColor.blue:
-                color = Color.blue;
-                break;
-
-            case cardColor.yellow:
-                color = Color.yellow;
-                break;
-
-            case cardColor.purple:
-                color = new Color(.5f, 0, 1f); //purple
-                break;
-
-            case cardColor.admiral:
-                color = new Color(.75f, 0, 0); //red
-                break;
-        }
-
-        cd.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = color;
+        cd.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = SelectColor.getColor(col);
     }
 
     MerchantCard CreateMerchant(int gv)
@@ -357,6 +337,8 @@ public class Deck : MonoBehaviour
 
         thisMerch.transform.parent = deckAnchor;
         thisMerch.transform.position = deckAnchor.position;
+
+        thisMerch.transform.localScale *= 2;
 
         return thisMerch;
     }

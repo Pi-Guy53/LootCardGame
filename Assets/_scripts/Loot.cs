@@ -19,6 +19,9 @@ public class Loot : MonoBehaviour
     public int currentTurn;
     private bool waitingForPlayerInput;
 
+    public GameObject battlePrefab;
+    public GameObject battleUI;
+
     private void Awake()
     {
         S = this;
@@ -54,11 +57,15 @@ public class Loot : MonoBehaviour
         }
     }
 
+    public void AICardClicked(Card cd)
+    {
+
+    }
+
     public void CardClicked(Card cd, bool isHumanPlayer)
     {
-        if (isHumanPlayer && currentTurn == 0 || !isHumanPlayer)
+        if (isHumanPlayer && currentTurn == 0)
         {
-
             switch (cd.state)
             {
                 case cardState.deck:
@@ -74,6 +81,14 @@ public class Loot : MonoBehaviour
                     break;
             }
         }
+        else if(isHumanPlayer)
+        {
+            print("Not your turn");
+        }
+        else
+        {
+            print("AI Selected action: Should not have happened");
+        }
     }
 
     public void BattleClicked()
@@ -81,24 +96,37 @@ public class Loot : MonoBehaviour
         players[currentTurn].WaitingForInput();
     }
 
-    void createBattle()
+    void createBattle(Card cd)
     {
-        //place a merchant card, and make a new merchant battle for this player
+        GameObject newBattle = Instantiate(battlePrefab);
+        newBattle.GetComponent<Battle>().setUp(currentTurn, cd.GetComponent<MerchantCard>().goldValue);
+        newBattle.transform.position = players[currentTurn].HomeWaters();
+
+        GameObject newBUI = Instantiate(battleUI);
+        newBUI.transform.parent = GameObject.FindGameObjectWithTag("UI").transform;
+        newBUI.transform.position = Camera.main.WorldToScreenPoint(newBattle.transform.position);
     }
 
     void playCardFromHand(Card cd)
     {
-        if(cd.GetComponent<MerchantCard>())
+        if (players[currentTurn].containsCard(cd))
         {
-            createBattle();
+            if (cd.GetComponent<MerchantCard>())
+            {
+                createBattle(cd);
+            }
+            else if (cd.GetComponent<PirateCard>())
+            {
+                BattleClicked();
+            }
+            else if (cd.GetComponent<CaptainCard>())
+            {
+                BattleClicked();
+            }
         }
-        else if(cd.GetComponent<PirateCard>())
+        else
         {
-            BattleClicked();
-        }
-        else if(cd.GetComponent<CaptainCard>())
-        {
-            BattleClicked();
+            print("not your card");
         }
     }
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Battle : MonoBehaviour
 {
+    public int goldValue;
+
     public ColorToPlayer blue;
     public ColorToPlayer green;
     public ColorToPlayer yellow;
@@ -19,9 +21,18 @@ public class Battle : MonoBehaviour
         purple.shipColor = cardColor.purple;
     }
 
-    public void newTurn()
+    public void setUp(int currentTurn, int gv)
     {
-        //check battle win conditons
+        goldValue = gv;
+        turnIDOfBattleEnd = currentTurn;
+    }
+
+    public void newTurn(int currentTurn)
+    {
+        if (currentTurn == turnIDOfBattleEnd)
+        {
+            //check if there are no ties
+        }
     }
 
     public bool addToBattle(int playerID, Card cd)
