@@ -11,16 +11,29 @@ public class Player : MonoBehaviour
     public Transform homeWaters;
 
     private bool isTurn;
+    private List<Battle> battles;
+
+    private void Start()
+    {
+        battles = new List<Battle>();
+    }
 
     public virtual void StartTurn()
     {
         isTurn = true;
     }
 
+    public void addBattle(Battle newBattle)
+    {
+        battles.Add(newBattle);
+    }
+
     public Vector3 HomeWaters()
     {
-        //Temp until I figure out positioning logic
-        return homeWaters.position;
+        //more leteral spacing, slide whole curve to the left
+        Vector3 homeWaterPos = homeWaters.transform.position + transform.right * battles.Count + transform.up * (-Mathf.Pow((battles.Count * .25f) - 2, 2) + 4);
+
+        return homeWaterPos;
     }
 
     public void drawCard(Card cd)

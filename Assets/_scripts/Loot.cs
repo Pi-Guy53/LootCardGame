@@ -108,6 +108,8 @@ public class Loot : MonoBehaviour
     {
         GameObject newBattle = Instantiate(battlePrefab);
         newBattle.GetComponent<Battle>().setUp(currentTurn, cd.GetComponent<MerchantCard>().goldValue, currentTurn);
+
+        players[currentTurn].addBattle(newBattle.GetComponent<Battle>());
         newBattle.transform.position = players[currentTurn].HomeWaters();
 
         GameObject newBUI = Instantiate(battleUI);
