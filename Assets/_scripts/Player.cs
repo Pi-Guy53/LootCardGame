@@ -33,16 +33,16 @@ public class Player : MonoBehaviour
         DisplayHand();
     }
 
-    public bool discardCard(Card cd)
+    public Card discardCard(Card cd)
     {
         if (hand.Remove(cd))
         {
             DisplayHand();
-            return true;
+            return cd;
         }
         else
         {
-            return false;
+            return null;
         }
     }
 
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < hand.Count; i++)
             {
-                hand[i].transform.position = handAnchor.transform.position + transform.right * ((hand.Count / 1) - (i * 2)) + transform.forward * i;
+                hand[i].transform.position = handAnchor.transform.position + transform.right * ((hand.Count / 1) - (i * 2)) + transform.forward * (i * .25f);
                 hand[i].faceUp = true;
             }
         }
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < hand.Count; i++)
             {
-                hand[i].transform.position = handAnchor.transform.position + transform.right * ((hand.Count / 3) - (i / 1.5f)) + transform.forward * i;
+                hand[i].transform.position = handAnchor.transform.position + transform.right * ((hand.Count / 3) - (i / 1.5f)) + transform.forward * (i * .25f);
                 hand[i].sortingOrder = (hand.Count - i) * 5;
                 hand[i].faceUp = true;
             }

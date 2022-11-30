@@ -173,56 +173,6 @@ Transform:
   m_Father: {fileID: 963194228}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &295965414
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 295965416}
-  - component: {fileID: 295965415}
-  m_Layer: 0
-  m_Name: battle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &295965415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 295965414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 904dd7da99048454284bb6d13a8e6e19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldValue: 0
-  blue: {fileID: 0}
-  green: {fileID: 0}
-  yellow: {fileID: 0}
-  purple: {fileID: 0}
-  turnIDOfBattleEnd: 0
---- !u!4 &295965416
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 295965414}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9, y: 0, z: 5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &455189008
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,7 +635,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -772,8 +722,8 @@ MonoBehaviour:
   AIPlayerPrefab: {fileID: 0}
   humanPlayerPrefab: {fileID: 97065677}
   currentTurn: 0
-  battlePrefab: {fileID: 0}
-  battleUI: {fileID: 0}
+  battlePrefab: {fileID: 627520651719646703, guid: 6ea238425cd3c42c08a2f6a29ce2dfcf, type: 3}
+  battleUI: {fileID: 7031628422443392589, guid: 2876803814446400f888ec4489fc58fd, type: 3}
 --- !u!1 &1026466996
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,7 +779,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1312140448}
   m_LocalRotation: {x: -0.000000029802322, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -6, z: 14}
+  m_LocalPosition: {x: 0, y: -5, z: 53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

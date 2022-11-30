@@ -5,26 +5,27 @@ using UnityEngine;
 public class Battle : MonoBehaviour
 {
     public int goldValue;
+    public int turnIDOfBattleEnd;
+    public int battleOwner;
 
     public ColorToPlayer blue;
     public ColorToPlayer green;
     public ColorToPlayer yellow;
     public ColorToPlayer purple;
 
-    public int turnIDOfBattleEnd;
-
     private void Start()
     {
-        blue.shipColor = cardColor.blue;
-        green.shipColor = cardColor.green;
-        yellow.shipColor = cardColor.yellow;
-        purple.shipColor = cardColor.purple;
+        blue.setColor(cardColor.blue);
+        green.setColor(cardColor.green);
+        yellow.setColor(cardColor.yellow);
+        purple.setColor(cardColor.purple);
     }
 
-    public void setUp(int currentTurn, int gv)
+    public void setUp(int currentTurn, int gv, int owner)
     {
         goldValue = gv;
         turnIDOfBattleEnd = currentTurn;
+        battleOwner = owner;
     }
 
     public void newTurn(int currentTurn)
@@ -35,8 +36,73 @@ public class Battle : MonoBehaviour
         }
     }
 
+    bool checkPlayerColor(int pID, cardColor color)
+    {
+        if (color == cardColor.blue)
+        {
+            if (blue.hasID() && blue.checkID(pID))
+            {
+                return true;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if (color == cardColor.green)
+        {
+            if (green.hasID() && green.checkID(pID))
+            {
+                return true;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if (color == cardColor.yellow)
+        {
+            if (yellow.hasID() && yellow.checkID(pID))
+            {
+                return true;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if (color == cardColor.purple)
+        {
+            if (purple.hasID() && purple.checkID(pID))
+            {
+                return true;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if (color == cardColor.admiral)
+        {
+            if (battleOwner == pID)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public bool addToBattle(int playerID, Card cd)
     {
+
+
         return false;
     }
 }

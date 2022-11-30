@@ -11,7 +11,7 @@ public class Card : MonoBehaviour
     public cardState state;
 
     private Vector3 orPos;
-    private bool hover;
+    public bool hover;
 
     private int sortOrder;
 
@@ -78,7 +78,7 @@ public class Card : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (hover)
+        if (state == cardState.hand && hover)
         {
             transform.position = orPos;
             hover = false;

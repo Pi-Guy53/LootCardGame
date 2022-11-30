@@ -49,6 +49,14 @@ public class Loot : MonoBehaviour
         return cd;
     }
 
+    void discardCard(Card cd)
+    {
+        cd.transform.parent = discardPile;
+        cd.transform.position = discardPile.position;
+        cd.faceUp = true;
+        cd.state = cardState.discard;
+    }
+
     public void startGame()
     {
         for (int i = 0; i < 5; i++)
@@ -99,12 +107,20 @@ public class Loot : MonoBehaviour
     void createBattle(Card cd)
     {
         GameObject newBattle = Instantiate(battlePrefab);
-        newBattle.GetComponent<Battle>().setUp(currentTurn, cd.GetComponent<MerchantCard>().goldValue);
+        newBattle.GetComponent<Battle>().setUp(currentTurn, cd.GetComponent<MerchantCard>().goldValue, currentTurn);
         newBattle.transform.position = players[currentTurn].HomeWaters();
 
         GameObject newBUI = Instantiate(battleUI);
-        newBUI.transform.parent = GameObject.FindGameObjectWithTag("UI").transform;
+        newBUI.transform.SetParent(GameObject.FindGameObjectWithTag("UI").transform);
         newBUI.transform.position = Camera.main.WorldToScreenPoint(newBattle.transform.position);
+
+        cd.transform.localScale = Vector3.one;
+        cd.state = cardState.battle;
+        cd.hover = false;
+        cd.transform.position = newBattle.transform.position;
+        cd.transform.parent = newBattle.transform;
+
+        players[currentTurn].discardCard(cd);
     }
 
     void playCardFromHand(Card cd)

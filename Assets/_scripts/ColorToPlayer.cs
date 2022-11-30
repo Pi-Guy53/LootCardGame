@@ -12,10 +12,16 @@ public class ColorToPlayer : MonoBehaviour
     {
         shipColor = color;
         GetComponent<SpriteRenderer>().color = SelectColor.getColor(color);
+        playerID = -1;
     }
 
     public bool checkID(int id)
     {
         return id == playerID;
+    }
+
+    public bool hasID()
+    {
+        return playerID != -1;
     }
 }
