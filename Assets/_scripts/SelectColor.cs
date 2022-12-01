@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum cardColor { green, blue, yellow, purple, admiral }
+public enum cardColor { green, blue, yellow, purple, admiral, none }
 
 public class SelectColor
 {

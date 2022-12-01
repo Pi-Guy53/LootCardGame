@@ -30,8 +30,7 @@ public class Player : MonoBehaviour
 
     public Vector3 HomeWaters()
     {
-        //more leteral spacing, slide whole curve to the left
-        Vector3 homeWaterPos = homeWaters.transform.position + transform.right * battles.Count + transform.up * (-Mathf.Pow((battles.Count * .25f) - 2, 2) + 4);
+        Vector3 homeWaterPos = homeWaters.transform.position + transform.right * ((battles.Count - 4) * 3) + transform.up * (-Mathf.Pow((battles.Count * .5f) - 2, 2) + 2);
 
         return homeWaterPos;
     }

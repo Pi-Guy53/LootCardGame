@@ -15,6 +15,18 @@ public class ColorToPlayer : MonoBehaviour
         playerID = -1;
     }
 
+    public int strength
+    {
+        get
+        {
+            return totalShipStrength;
+        }
+        set
+        {
+            totalShipStrength = value;
+        }
+    }
+
     public bool checkID(int id)
     {
         return id == playerID;

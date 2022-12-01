@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Loot : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class Loot : MonoBehaviour
 
     public GameObject battlePrefab;
     public GameObject battleUI;
+
+    private Card cardToAddToBattle;
 
     private void Awake()
     {
@@ -74,6 +77,7 @@ public class Loot : MonoBehaviour
     {
         if (isHumanPlayer && currentTurn == 0)
         {
+
             switch (cd.state)
             {
                 case cardState.deck:
@@ -89,7 +93,7 @@ public class Loot : MonoBehaviour
                     break;
             }
         }
-        else if(isHumanPlayer)
+        else if (isHumanPlayer)
         {
             print("Not your turn");
         }
@@ -99,9 +103,28 @@ public class Loot : MonoBehaviour
         }
     }
 
-    public void BattleClicked()
+    public void SelectedBattle(Battle battle)
+    {
+        if (waitingForPlayerInput)
+        {
+            if(battle.addToBattle(currentTurn, cardToAddToBattle))
+            {
+                print("added card to battle");
+            }
+            else
+            {
+                print("error, card invalid");
+            }
+
+            waitingForPlayerInput = false;
+        }
+    }
+
+    private void BattleClicked(Card cd)
     {
         players[currentTurn].WaitingForInput();
+        waitingForPlayerInput = true;
+        cardToAddToBattle = cd;
     }
 
     void createBattle(Card cd)
@@ -115,6 +138,7 @@ public class Loot : MonoBehaviour
         GameObject newBUI = Instantiate(battleUI);
         newBUI.transform.SetParent(GameObject.FindGameObjectWithTag("UI").transform);
         newBUI.transform.position = Camera.main.WorldToScreenPoint(newBattle.transform.position);
+        newBUI.GetComponent<Text>().text = "$" + cd.GetComponent<MerchantCard>().goldValue;
 
         cd.transform.localScale = Vector3.one;
         cd.state = cardState.battle;
@@ -135,11 +159,11 @@ public class Loot : MonoBehaviour
             }
             else if (cd.GetComponent<PirateCard>())
             {
-                BattleClicked();
+                BattleClicked(cd);
             }
             else if (cd.GetComponent<CaptainCard>())
             {
-                BattleClicked();
+                BattleClicked(cd);
             }
         }
         else

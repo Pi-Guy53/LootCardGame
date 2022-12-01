@@ -13,6 +13,8 @@ public class Battle : MonoBehaviour
     public ColorToPlayer yellow;
     public ColorToPlayer purple;
 
+    public int winningPlayer;
+
     private void Start()
     {
         blue.setColor(cardColor.blue);
@@ -36,8 +38,40 @@ public class Battle : MonoBehaviour
         }
     }
 
+    private ColorToPlayer getColorToModify(cardColor col)
+    {
+        switch (col)
+        {
+            case cardColor.green:
+                return green;
+
+
+            case cardColor.blue:
+                return blue;
+
+
+            case cardColor.yellow:
+                return yellow;
+
+
+            case cardColor.purple:
+                return purple;
+
+            default:
+                return null;
+        }
+    }
+
+    bool checkPlayerIds(int playerID)
+    {
+        //check if the player has already played a card to a different color
+
+        return false;
+    }
+
     bool checkPlayerColor(int pID, cardColor color)
     {
+        //allows a player to only add to an existing color
         if (color == cardColor.blue)
         {
             if (blue.hasID() && blue.checkID(pID))
@@ -46,7 +80,7 @@ public class Battle : MonoBehaviour
             }
             else
             {
-                return true;
+                return false;
             }
         }
         else if (color == cardColor.green)
@@ -57,7 +91,7 @@ public class Battle : MonoBehaviour
             }
             else
             {
-                return true;
+                return false;
             }
         }
         else if (color == cardColor.yellow)
@@ -68,7 +102,7 @@ public class Battle : MonoBehaviour
             }
             else
             {
-                return true;
+                return false;
             }
         }
         else if (color == cardColor.purple)
@@ -79,13 +113,14 @@ public class Battle : MonoBehaviour
             }
             else
             {
-                return true;
+                return false;
             }
         }
         else if (color == cardColor.admiral)
         {
             if (battleOwner == pID)
             {
+                winningPlayer = pID;
                 return true;
             }
             else
@@ -101,8 +136,39 @@ public class Battle : MonoBehaviour
 
     public bool addToBattle(int playerID, Card cd)
     {
+        cardColor col = cardColor.none;
 
+        if (cd.GetComponent<PirateCard>())
+        {
+            col = cd.GetComponent<PirateCard>().color;
+
+            if (checkPlayerColor(playerID, col))
+            {
+                getColorToModify(col).strength += cd.GetComponent<PirateCard>().strength;
+                getColorToModify(col).playerID = playerID;
+            }
+
+            return true;
+        }
+        else if (cd.GetComponent<CaptainCard>())
+        {
+            col = cd.GetComponent<CaptainCard>().color;
+
+            winningPlayer = playerID;
+
+            return true;
+        }
 
         return false;
+    }
+
+    public void AIClicked()
+    {
+        Loot.S.SelectedBattle(this);
+    }
+
+    public void OnMouseUpAsButton()
+    {
+        Loot.S.SelectedBattle(this);
     }
 }
