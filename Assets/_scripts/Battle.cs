@@ -62,11 +62,31 @@ public class Battle : MonoBehaviour
         }
     }
 
-    bool checkPlayerIds(int playerID)
+    int checkPlayerIds(int playerID)
     {
-        //check if the player has already played a card to a different color
+        int howManyIds = 0;
 
-        return false;
+        if(blue.checkID(playerID))
+        {
+            howManyIds++;
+        }
+
+        if (green.checkID(playerID))
+        {
+            howManyIds++;
+        }
+
+        if (yellow.checkID(playerID))
+        {
+            howManyIds++;
+        }
+
+        if (purple.checkID(playerID))
+        {
+            howManyIds++;
+        }
+
+        return howManyIds;
     }
 
     bool checkPlayerColor(int pID, cardColor color)
@@ -74,7 +94,7 @@ public class Battle : MonoBehaviour
         //allows a player to only add to an existing color
         if (color == cardColor.blue)
         {
-            if (blue.hasID() && blue.checkID(pID))
+            if (blue.checkID(pID))
             {
                 return true;
             }
@@ -85,7 +105,7 @@ public class Battle : MonoBehaviour
         }
         else if (color == cardColor.green)
         {
-            if (green.hasID() && green.checkID(pID))
+            if (green.checkID(pID))
             {
                 return true;
             }
@@ -96,7 +116,7 @@ public class Battle : MonoBehaviour
         }
         else if (color == cardColor.yellow)
         {
-            if (yellow.hasID() && yellow.checkID(pID))
+            if (yellow.checkID(pID))
             {
                 return true;
             }
@@ -107,7 +127,7 @@ public class Battle : MonoBehaviour
         }
         else if (color == cardColor.purple)
         {
-            if (purple.hasID() && purple.checkID(pID))
+            if (purple.checkID(pID))
             {
                 return true;
             }
@@ -142,21 +162,38 @@ public class Battle : MonoBehaviour
         {
             col = cd.GetComponent<PirateCard>().color;
 
-            if (checkPlayerColor(playerID, col))
+            if(checkPlayerColor(playerID, col))
+            {
+                getColorToModify(col).strength += cd.GetComponent<PirateCard>().strength;
+
+                return true;
+            }
+            else if(!getColorToModify(col).hasID() && checkPlayerIds(playerID) == 0)
             {
                 getColorToModify(col).strength += cd.GetComponent<PirateCard>().strength;
                 getColorToModify(col).playerID = playerID;
-            }
 
-            return true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else if (cd.GetComponent<CaptainCard>())
         {
             col = cd.GetComponent<CaptainCard>().color;
 
-            winningPlayer = playerID;
+            if (checkPlayerColor(playerID, col))
+            {
+                winningPlayer = playerID;
 
-            return true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         return false;
