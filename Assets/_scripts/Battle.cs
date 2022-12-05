@@ -15,12 +15,19 @@ public class Battle : MonoBehaviour
 
     public int winningPlayer;
 
+    private int cardsInBattle;
+    private BattleUI ui;
+
+    public GameObject playerHighlight;
+
     private void Start()
     {
         blue.setColor(cardColor.blue);
         green.setColor(cardColor.green);
         yellow.setColor(cardColor.yellow);
         purple.setColor(cardColor.purple);
+
+        playerHighlight.SetActive(false);
     }
 
     public void setUp(int currentTurn, int gv, int owner)
@@ -28,14 +35,26 @@ public class Battle : MonoBehaviour
         goldValue = gv;
         turnIDOfBattleEnd = currentTurn;
         battleOwner = owner;
+
+        cardsInBattle = 0;
+        winningPlayer = -1;
     }
 
     public void newTurn(int currentTurn)
     {
         if (currentTurn == turnIDOfBattleEnd)
         {
-            //check if there are no ties
+            //Winning Score Logic
+
+            print(currentTurn + " : " + turnIDOfBattleEnd);
+            
+            Destroy(gameObject); //TEMP
         }
+    }
+
+    public void addUI(BattleUI _ui)
+    {
+        ui = _ui;
     }
 
     private ColorToPlayer getColorToModify(cardColor col)
@@ -62,7 +81,7 @@ public class Battle : MonoBehaviour
         }
     }
 
-    int checkPlayerIds(int playerID)
+    public int checkPlayerIds(int playerID)
     {
         int howManyIds = 0;
 
@@ -165,6 +184,7 @@ public class Battle : MonoBehaviour
             if(checkPlayerColor(playerID, col))
             {
                 getColorToModify(col).strength += cd.GetComponent<PirateCard>().strength;
+                ui.addToColorInt(col, getColorToModify(col).strength);
 
                 return true;
             }
@@ -172,6 +192,7 @@ public class Battle : MonoBehaviour
             {
                 getColorToModify(col).strength += cd.GetComponent<PirateCard>().strength;
                 getColorToModify(col).playerID = playerID;
+                ui.addToColorInt(col, getColorToModify(col).strength);
 
                 return true;
             }
@@ -187,6 +208,7 @@ public class Battle : MonoBehaviour
             if (checkPlayerColor(playerID, col))
             {
                 winningPlayer = playerID;
+                ui.addToColorCaptain(col);
 
                 return true;
             }
@@ -199,6 +221,40 @@ public class Battle : MonoBehaviour
         return false;
     }
 
+    public void cardIntoBattle(Card cd)
+    {
+        if (cd.GetComponent<PirateCard>())
+        {
+            cardsInBattle++;
+
+            cd.transform.SetParent(getColorToModify(cd.GetComponent<PirateCard>().color).transform);
+            cd.transform.localScale = new Vector3(.9f, .9f, .9f);
+            cd.transform.position = cd.transform.transform.parent.position;
+
+            cd.sortingOrder = 5 * cardsInBattle;
+            cd.state = cardState.battle;
+        }
+        else if (cd.GetComponent<CaptainCard>())
+        {
+            cardsInBattle++;
+
+            if (cd.GetComponent<CaptainCard>().color == cardColor.admiral)
+            {
+                cd.transform.SetParent(transform);
+            }
+            else
+            {
+                cd.transform.SetParent(getColorToModify(cd.GetComponent<CaptainCard>().color).transform);
+            }
+
+            cd.transform.localScale = new Vector3(.9f, .9f, .9f);
+            cd.transform.position = cd.transform.transform.parent.position;
+
+            cd.sortingOrder = 5 * cardsInBattle;
+            cd.state = cardState.battle;
+        }
+    }
+
     public void AIClicked()
     {
         Loot.S.SelectedBattle(this);
@@ -207,5 +263,47 @@ public class Battle : MonoBehaviour
     public void OnMouseUpAsButton()
     {
         Loot.S.SelectedBattle(this);
+    }
+
+    private Vector3 getColorFromPlayerID(int id)
+    {
+        if(blue.checkID(id))
+        {
+            return blue.transform.position;
+        }
+        else if(green.checkID(id))
+        {
+            return green.transform.position;
+        }
+        else if(yellow.checkID(id))
+        {
+            return yellow.transform.position;
+        }
+        else if(purple.checkID(id))
+        {
+            return purple.transform.position;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+    public void hightLightCard(int id)
+    {
+        playerHighlight.SetActive(true);
+        playerHighlight.transform.position = getColorFromPlayerID(id);
+    }
+
+    private void OnMouseEnter()
+    {
+        transform.localScale *= 1.25f;
+        ui.transform.localScale *= 1.25f;
+    }
+
+    private void OnMouseExit()
+    {
+        transform.localScale /= 1.25f;
+        ui.transform.localScale /= 1.25f;
     }
 }

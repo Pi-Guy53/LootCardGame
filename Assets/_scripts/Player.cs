@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
 
     public Transform homeWaters;
 
-    private bool isTurn;
-    private List<Battle> battles;
+    public bool isTurn;
+    public List<Battle> battles;
 
     private void Start()
     {
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 
     public virtual void StartTurn()
     {
-        isTurn = true;
+        print("My turn: [" + playerID + "]");
     }
 
     public void addBattle(Battle newBattle)
@@ -28,11 +28,9 @@ public class Player : MonoBehaviour
         battles.Add(newBattle);
     }
 
-    public Vector3 HomeWaters()
+    public virtual Vector3 HomeWaters()
     {
-        Vector3 homeWaterPos = homeWaters.transform.position + transform.right * ((battles.Count - 4) * 3) + transform.up * (-Mathf.Pow((battles.Count * .5f) - 2, 2) + 2);
-
-        return homeWaterPos;
+        return Vector3.zero;
     }
 
     public void drawCard(Card cd)
@@ -63,25 +61,9 @@ public class Player : MonoBehaviour
         //highlight all possible battles to join
     }
 
-    public void DisplayHand()
+    public virtual void DisplayHand()
     {
-        if (hand.Count < 11)
-        {
-            for (int i = 0; i < hand.Count; i++)
-            {
-                hand[i].transform.position = handAnchor.transform.position + transform.right * ((hand.Count / 1) - (i * 2)) + transform.forward * (i * .25f);
-                hand[i].faceUp = true;
-            }
-        }
-        else
-        {
-            for (int i = 0; i < hand.Count; i++)
-            {
-                hand[i].transform.position = handAnchor.transform.position + transform.right * ((hand.Count / 3) - (i / 1.5f)) + transform.forward * (i * .25f);
-                hand[i].sortingOrder = (hand.Count - i) * 5;
-                hand[i].faceUp = true;
-            }
-        }
+
     }
 
     public bool containsCard(Card cd)
