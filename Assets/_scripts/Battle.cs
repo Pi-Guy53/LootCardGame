@@ -42,11 +42,11 @@ public class Battle : MonoBehaviour
 
     public void newTurn(int currentTurn)
     {
+        print(currentTurn + " : " + turnIDOfBattleEnd);
+
         if (currentTurn == turnIDOfBattleEnd)
         {
             //Winning Score Logic
-
-            print(currentTurn + " : " + turnIDOfBattleEnd);
             
             Destroy(gameObject); //TEMP
         }
