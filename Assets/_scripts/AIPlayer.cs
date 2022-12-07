@@ -17,7 +17,8 @@ public class AIPlayer : Player
     public override void StartTurn()
     {
         //take an action
-        Invoke("AskForCard", .5f); //delay for "thinking"
+        //Invoke("AskForCard", .5f); //delay for "thinking"
+        Invoke("PlayMerchant", .5f); //delay for "thinking"
     }
 
     public override void WaitingForInput()
@@ -31,11 +32,20 @@ public class AIPlayer : Player
 
         if (topOfBoard)
         {
-            homeWaterPos = homeWaters.transform.position + (Vector3.up * (5 - battles.Count));
+            homeWaterPos = homeWaters.transform.position + (Vector3.right * (5 - battles.Count));
         }
         else
         {
-
+            if (battles.Count% 2 == 0)
+            {
+                homeWaterPos.x = homeWaters.transform.position.x;
+                homeWaterPos.y = (homeWaters.transform.position.y) + (battles.Count - 1) * 2.25f;
+            }
+            else
+            {
+                homeWaterPos.x = homeWaters.transform.position.x + 4;
+                homeWaterPos.y = (homeWaters.transform.position.y) + (battles.Count) * 2.25f;
+            }
         }
 
         return homeWaterPos;
@@ -59,6 +69,14 @@ public class AIPlayer : Player
 
     void PlayMerchant()
     {
+        foreach(Card cd in hand)
+        {
+            if (cd.GetComponent<MerchantCard>())
+            {
+                Loot.S.AICardClicked(cd);
+                return;
+            }
+        }
         //Loot.S.AICardClicked( /*Choose Pirate From Hand*/ );
     }
 

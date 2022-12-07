@@ -47,7 +47,6 @@ public class Battle : MonoBehaviour
         if (currentTurn == turnIDOfBattleEnd)
         {
             //Winning Score Logic
-            
             Destroy(gameObject); //TEMP
         }
     }
@@ -305,5 +304,11 @@ public class Battle : MonoBehaviour
     {
         transform.localScale /= 1.25f;
         ui.transform.localScale /= 1.25f;
+    }
+
+    private void OnDestroy()
+    {
+        Loot.S.getPlayerFromId(battleOwner).battles.Remove(this);
+        Destroy(ui.gameObject);
     }
 }

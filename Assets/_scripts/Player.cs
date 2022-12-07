@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     {
         if (hand.Remove(cd))
         {
+            print(cd.name);
             DisplayHand();
             return cd;
         }

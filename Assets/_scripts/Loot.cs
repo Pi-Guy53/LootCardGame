@@ -254,4 +254,9 @@ public class Loot : MonoBehaviour
         }
     }
 
+    public Player getPlayerFromId(int id)
+    {
+        return players[id];
+    }
+
 }
