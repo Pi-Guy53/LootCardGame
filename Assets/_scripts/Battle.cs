@@ -309,6 +309,9 @@ public class Battle : MonoBehaviour
     private void OnDestroy()
     {
         Loot.S.getPlayerFromId(battleOwner).battles.Remove(this);
-        Destroy(ui.gameObject);
+        if (ui != null)
+        {
+            Destroy(ui.gameObject);
+        }
     }
 }
