@@ -56,6 +56,43 @@ public class Battle : MonoBehaviour
         ui = _ui;
     }
 
+    public int winningPlayerColor()
+    {
+        int i = 0;
+        int id = -1;
+
+        if(blue.strength > i)
+        {
+            i = blue.strength;
+            id = blue.playerID;
+        }
+
+        if(green.strength > i)
+        {
+            i = green.strength;
+            id = green.playerID;
+        }
+
+        if(yellow.strength > i)
+        {
+            i = yellow.strength;
+            id = yellow.playerID;
+        }
+
+        if(purple.strength > i)
+        {
+            i = purple.strength;
+            id = purple.playerID;
+        }
+
+        if(winningPlayer != -1)
+        {
+            id = winningPlayer;
+        }
+
+        return id;
+    }
+
     private ColorToPlayer getColorToModify(cardColor col)
     {
         switch (col)

@@ -4,21 +4,113 @@ using UnityEngine;
 
 public class AIPlayer : Player
 {
-
     public bool topOfBoard;
 
-    private List<Battle> allBattles;
+    private Battle[] allBattles;
+
+    private List<PirateCard> pirates;
+    private List<MerchantCard> merchants;
+    private List<CaptainCard> captains;
+
+    int tempGoldCount;
 
     private void Start()
     {
-        allBattles = new List<Battle>();
+
     }
 
     public override void StartTurn()
     {
-        //take an action
         //Invoke("AskForCard", .5f); //delay for "thinking"
-        Invoke("PlayMerchant", .5f); //delay for "thinking"
+        //Invoke("PlayMerchant", .5f); //delay for "thinking"
+
+        //take an action
+        //check all battles;
+        //see if it should continue a fight:
+        //see if it should join a fight:
+        //see if to deply a merchant:
+        //draw a card
+
+        allBattles = FindObjectsOfType<Battle>();
+        fillLists();
+        tempGoldCount = 0;
+
+        if (allBattles.Length > 0)
+        {
+            for(int i = 0; i < allBattles.Length; i++)
+            {
+                if(allBattles[i].winningPlayerColor() == playerID)
+                {
+                    //skip over
+                }
+                else
+                {
+                    if(allBattles[i].goldValue > tempGoldCount)
+                    {
+                        tempGoldCount = allBattles[i].goldValue;
+                    }
+                }
+            }
+        }
+    }
+
+    void fillLists()
+    {
+        pirates = new List<PirateCard>();
+        merchants = new List<MerchantCard>();
+        captains = new List<CaptainCard>();
+
+        for (int i = 0; i < hand.Count; i++)
+        {
+            if(hand[i].GetComponent<PirateCard>())
+            {
+                pirates.Add(hand[i].GetComponent<PirateCard>());
+            }
+            else if(hand[i].GetComponent<CaptainCard>())
+            {
+                captains.Add(hand[i].GetComponent<CaptainCard>());
+            }
+            else if(hand[i].GetComponent<MerchantCard>())
+            {
+                merchants.Add(hand[i].GetComponent<MerchantCard>());
+            }
+        }
+    }
+
+    private bool handHas(int cardType)
+    {
+        if (cardType == 1) //pirate
+        {
+            for (int i = 0; i < hand.Count; i++)
+            {
+                if (hand[i].GetComponent<PirateCard>())
+                {
+                    return true;
+                }
+            }
+        }
+        else if (cardType == 2) //captain
+        {
+            for (int i = 0; i < hand.Count; i++)
+            {
+                if (hand[i].GetComponent<CaptainCard>())
+                {
+                    return true;
+                }
+            }
+        }
+        else if (cardType == 3) //merchant
+        {
+            for (int i = 0; i < hand.Count; i++)
+            {
+                if (hand[i].GetComponent<MerchantCard>())
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public override void WaitingForInput()
