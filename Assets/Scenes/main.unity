@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -146,14 +146,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59994811}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: -2, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1071110080}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &97065676
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,6 +207,38 @@ MonoBehaviour:
   homeWaters: {fileID: 1312140449}
   isTurn: 0
   battles: []
+  goldCount: 0
+--- !u!1 &191264465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 191264466}
+  m_Layer: 0
+  m_Name: homewaters original
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &191264466
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191264465}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1071110080}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &373865197
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,6 +904,7 @@ MonoBehaviour:
   AIPlayerPrefab: {fileID: 1071110079}
   humanPlayerPrefab: {fileID: 97065679}
   currentTurn: 0
+  waitingForPlayerInput: 0
   battlePrefab: {fileID: 627520651719646703, guid: 6ea238425cd3c42c08a2f6a29ce2dfcf, type: 3}
   battleUI: {fileID: 243050626411545366, guid: ea2a622a0c78548dda3a1410c5105a81, type: 3}
   cardHighlight: {fileID: 727908436}
@@ -898,8 +931,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1026466996}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: -0.35, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.40000004, y: -0.3, z: 0}
   m_LocalScale: {x: 0.02857143, y: 0.05625112, z: 0.31031057}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -941,6 +974,7 @@ MonoBehaviour:
   homeWaters: {fileID: 59994812}
   isTurn: 0
   battles: []
+  goldCount: 0
   topOfBoard: 0
 --- !u!4 &1071110080
 Transform:
@@ -956,6 +990,7 @@ Transform:
   m_Children:
   - {fileID: 59994812}
   - {fileID: 373865198}
+  - {fileID: 191264466}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

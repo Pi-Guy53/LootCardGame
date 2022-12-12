@@ -42,11 +42,21 @@ public class Battle : MonoBehaviour
 
     public void newTurn(int currentTurn)
     {
-        print(currentTurn + " : " + turnIDOfBattleEnd);
-
         if (currentTurn == turnIDOfBattleEnd)
         {
-            //Winning Score Logic
+            print(turnIDOfBattleEnd + " : " + currentTurn);
+
+            int i = winningPlayerColor();
+
+            if (i == -1)
+            {
+                Loot.S.AwardGoldToID(battleOwner, goldValue);
+            }
+            else
+            {
+                Loot.S.AwardGoldToID(i, goldValue);
+            }
+
             Destroy(gameObject); //TEMP
         }
     }
@@ -91,6 +101,18 @@ public class Battle : MonoBehaviour
         }
 
         return id;
+    }
+
+    public bool winningOwner(int id)
+    {
+        if(winningPlayerColor() == -1 && id == battleOwner)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private ColorToPlayer getColorToModify(cardColor col)
@@ -222,6 +244,8 @@ public class Battle : MonoBehaviour
                 getColorToModify(col).strength += cd.GetComponent<PirateCard>().strength;
                 ui.addToColorInt(col, getColorToModify(col).strength);
 
+                turnIDOfBattleEnd = playerID;
+
                 return true;
             }
             else if(!getColorToModify(col).hasID() && checkPlayerIds(playerID) == 0)
@@ -229,6 +253,8 @@ public class Battle : MonoBehaviour
                 getColorToModify(col).strength += cd.GetComponent<PirateCard>().strength;
                 getColorToModify(col).playerID = playerID;
                 ui.addToColorInt(col, getColorToModify(col).strength);
+
+                turnIDOfBattleEnd = playerID;
 
                 return true;
             }
@@ -245,6 +271,8 @@ public class Battle : MonoBehaviour
             {
                 winningPlayer = playerID;
                 ui.addToColorCaptain(col);
+
+                turnIDOfBattleEnd = playerID;
 
                 return true;
             }
@@ -289,6 +317,11 @@ public class Battle : MonoBehaviour
             cd.sortingOrder = 5 * cardsInBattle;
             cd.state = cardState.battle;
         }
+    }
+
+    public bool isColorFree(cardColor col)
+    {
+        return !getColorToModify(col).hasID();
     }
 
     public void AIClicked()

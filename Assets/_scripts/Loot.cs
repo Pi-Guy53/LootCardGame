@@ -18,7 +18,7 @@ public class Loot : MonoBehaviour
     public HumanPlayer humanPlayerPrefab;
 
     public int currentTurn;
-    private bool waitingForPlayerInput;
+    public bool waitingForPlayerInput;
 
     public GameObject battlePrefab;
     public GameObject battleUI;
@@ -153,11 +153,13 @@ public class Loot : MonoBehaviour
         cardToAddToBattle = null;
     }
 
-    public void SelectedBattle(Battle battle)
+    public bool SelectedBattle(Battle battle)
     {
+        print(waitingForPlayerInput);
+
         if (waitingForPlayerInput)
         {
-            if(battle.addToBattle(currentTurn, cardToAddToBattle))
+            if (battle.addToBattle(currentTurn, cardToAddToBattle))
             {
                 print("added card to battle");
                 battle.cardIntoBattle(players[currentTurn].discardCard(cardToAddToBattle));
@@ -165,6 +167,7 @@ public class Loot : MonoBehaviour
                 deselectCard();
 
                 PassTurn();//Pass turn
+                return true;
             }
             else
             {
@@ -174,13 +177,15 @@ public class Loot : MonoBehaviour
             waitingForPlayerInput = false;
             deselectCard();
         }
+
+        return false;
     }
 
     public void BattleClicked(Card cd)
     {
-        players[currentTurn].WaitingForInput();
         waitingForPlayerInput = true;
         cardToAddToBattle = cd;
+        players[currentTurn].WaitingForInput();
     }
 
     void createBattle(Card cd)
@@ -235,6 +240,7 @@ public class Loot : MonoBehaviour
 
     void PassTurn()
     {
+        
         if (currentTurn < players.Count -1)
         {
             currentTurn++;
@@ -252,11 +258,17 @@ public class Loot : MonoBehaviour
         {
             battles[i].newTurn(currentTurn);
         }
+        
     }
 
     public Player getPlayerFromId(int id)
     {
         return players[id];
+    }
+
+    public void AwardGoldToID(int playerID, int amount)
+    {
+        players[playerID].AddGold(amount);
     }
 
 }

@@ -18,6 +18,9 @@ public class HumanPlayer : Player
     {
         Vector3 homeWaterPos = homeWaters.transform.position + transform.right * ((battles.Count - 4) * 4);// + transform.up * (-Mathf.Pow((battles.Count * .5f) - 2, 2) + 2);
 
+        //float c = battles.Count * 4;
+        //Vector3 homeWaterPos = transform.up * (-Mathf.Abs(2*battles.Count - 8) -1) + transform.right * (-16 + c);
+
         return homeWaterPos;
     }
 

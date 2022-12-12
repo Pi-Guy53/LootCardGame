@@ -13,9 +13,18 @@ public class Player : MonoBehaviour
     public bool isTurn;
     public List<Battle> battles;
 
+    public int goldCount;
+
     private void Start()
     {
         battles = new List<Battle>();
+    }
+
+    public void AddGold(int amount)
+    {
+        goldCount += amount;
+
+        print("player[" + playerID + "] gold count = " + goldCount);
     }
 
     public virtual void StartTurn()
