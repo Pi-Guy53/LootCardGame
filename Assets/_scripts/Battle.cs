@@ -48,22 +48,96 @@ public class Battle : MonoBehaviour
 
             int i = winningPlayerColor();
 
-            if (i == -1)
+            if (winningPlayer != -1)
             {
-                Loot.S.AwardGoldToID(battleOwner, goldValue);
+                i = winningPlayer;
+            }
+
+            if (TiedStrength() && winningPlayer == -1)
+            {
+                print("tied strengths");
             }
             else
             {
-                Loot.S.AwardGoldToID(i, goldValue);
-            }
+                if (i == -1)
+                {
+                    print("owner won");
+                    Loot.S.AwardGoldToID(battleOwner, goldValue);
+                }
+                else
+                {
+                    print("highest score won");
+                    Loot.S.AwardGoldToID(i, goldValue);
+                }
 
-            Destroy(gameObject); //TEMP
+                print("destoyed?");
+
+                Destroy(gameObject); //TEMP
+            }
         }
     }
 
     public void addUI(BattleUI _ui)
     {
         ui = _ui;
+    }
+
+    bool TiedStrength()
+    {
+        List<ColorToPlayer> activeColors = new List<ColorToPlayer>();
+
+        if (blue.strength == 0)
+        {
+            //exclude blue
+        }
+        else
+        {
+            activeColors.Add(blue);
+        }
+
+        if (green.strength == 0)
+        {
+            //exclude green
+        }
+        else
+        {
+            activeColors.Add(green);
+        }
+
+        if (yellow.strength == 0)
+        {
+            //exclude yellow
+        }
+        else
+        {
+            activeColors.Add(yellow);
+        }
+
+        if (purple.strength == 0)
+        {
+            //exclude purple
+        }
+        else
+        {
+            activeColors.Add(purple);
+        }
+
+        if(activeColors.Count > 1)
+        {
+            for(int x = 0; x < activeColors.Count; x++)
+            {
+                for(int y = 0; y < activeColors.Count; y++)
+                {
+                    if(activeColors[x].strength == activeColors[y].strength && activeColors[x] != activeColors[y])
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+
     }
 
     public int winningPlayerColor()
@@ -95,11 +169,6 @@ public class Battle : MonoBehaviour
             id = purple.playerID;
         }
 
-        if(winningPlayer != -1)
-        {
-            id = winningPlayer;
-        }
-
         return id;
     }
 
@@ -115,7 +184,7 @@ public class Battle : MonoBehaviour
         }
     }
 
-    private ColorToPlayer getColorToModify(cardColor col)
+    public ColorToPlayer getColorToModify(cardColor col)
     {
         switch (col)
         {
@@ -166,7 +235,7 @@ public class Battle : MonoBehaviour
         return howManyIds;
     }
 
-    bool checkPlayerColor(int pID, cardColor color)
+    public bool checkPlayerColor(int pID, cardColor color)
     {
         //allows a player to only add to an existing color
         if (color == cardColor.blue)
@@ -175,60 +244,43 @@ public class Battle : MonoBehaviour
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
         }
-        else if (color == cardColor.green)
+
+        if (color == cardColor.green)
         {
             if (green.checkID(pID))
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
         }
-        else if (color == cardColor.yellow)
+
+        if (color == cardColor.yellow)
         {
             if (yellow.checkID(pID))
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
         }
-        else if (color == cardColor.purple)
+
+        if (color == cardColor.purple)
         {
             if (purple.checkID(pID))
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
         }
-        else if (color == cardColor.admiral)
+
+        if (color == cardColor.admiral)
         {
             if (battleOwner == pID)
             {
                 winningPlayer = pID;
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     public bool addToBattle(int playerID, Card cd)
@@ -319,9 +371,14 @@ public class Battle : MonoBehaviour
         }
     }
 
-    public bool isColorFree(cardColor col)
+    public bool isColorFree(cardColor col, int id)
     {
-        return !getColorToModify(col).hasID();
+        if(getColorToModify(col).checkID(id) || !getColorToModify(col).hasID())
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public void AIClicked()

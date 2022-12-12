@@ -12,9 +12,10 @@ public class Loot : MonoBehaviour
 
     public Transform drawPile;
     public Transform discardPile;
+    public GameObject goldCoin;
 
     public List<Player> players;
-    public AIPlayer AIPlayerPrefab;
+    public AIPlayer AIPlayerLeft, AIPlayerTop, AIPlayerRight;
     public HumanPlayer humanPlayerPrefab;
 
     public int currentTurn;
@@ -23,7 +24,7 @@ public class Loot : MonoBehaviour
     public GameObject battlePrefab;
     public GameObject battleUI;
 
-    private Card cardToAddToBattle;
+    public Card cardToAddToBattle;
 
     public GameObject cardHighlight;
 
@@ -43,7 +44,9 @@ public class Loot : MonoBehaviour
         initDeck.MoveDeck(drawPile.position);
 
         players.Add(humanPlayerPrefab);
-        players.Add(AIPlayerPrefab);
+        players.Add(AIPlayerLeft);
+        players.Add(AIPlayerRight);
+        players.Add(AIPlayerTop);
 
         cardHighlight.SetActive(false);
 
@@ -89,12 +92,16 @@ public class Loot : MonoBehaviour
                 players[p].drawCard(Draw());
             }
         }
+
+        players[0].StartTurn();
     }
 
     public void AIDrawCard(int id)
     {
-        players[id].drawCard(Draw());
-
+        if (deck.Count > 0)
+        {
+            players[id].drawCard(Draw());
+        }
         PassTurn();//Pass turn
     }
 
@@ -178,6 +185,8 @@ public class Loot : MonoBehaviour
             deselectCard();
         }
 
+        print("No Player Input");
+
         return false;
     }
 
@@ -185,6 +194,7 @@ public class Loot : MonoBehaviour
     {
         waitingForPlayerInput = true;
         cardToAddToBattle = cd;
+
         players[currentTurn].WaitingForInput();
     }
 
@@ -240,25 +250,30 @@ public class Loot : MonoBehaviour
 
     void PassTurn()
     {
-        
-        if (currentTurn < players.Count -1)
+        if (CheckWinConditions())
         {
-            currentTurn++;
+            print("====++++==== GAME OVER Player[" + GetWinningPlayer() + "] WON ====++++====");
         }
         else
         {
-            currentTurn = 0;
+            if (currentTurn < players.Count - 1)
+            {
+                currentTurn++;
+            }
+            else
+            {
+                currentTurn = 0;
+            }
+
+            players[currentTurn].StartTurn();
+
+            Battle[] battles = FindObjectsOfType<Battle>();
+
+            for (int i = 0; i < battles.Length; i++)
+            {
+                battles[i].newTurn(currentTurn);
+            }
         }
-
-        players[currentTurn].StartTurn();
-
-        Battle[] battles = FindObjectsOfType<Battle>();
-
-        for(int i = 0; i < battles.Length; i++)
-        {
-            battles[i].newTurn(currentTurn);
-        }
-        
     }
 
     public Player getPlayerFromId(int id)
@@ -268,7 +283,46 @@ public class Loot : MonoBehaviour
 
     public void AwardGoldToID(int playerID, int amount)
     {
+        GameObject thisCoin = Instantiate(goldCoin);
+        thisCoin.transform.position = Vector3.zero;
+
+        thisCoin.GetComponent<CoinAnimation>().startMovement(players[playerID].transform);
+
         players[playerID].AddGold(amount);
     }
 
+    bool CheckWinConditions()
+    {
+        bool end = false;
+
+        if(deck.Count == 0)
+        {
+            for(int i = 0; i < players.Count; i++)
+            {
+                if(players[i].hand.Count == 0)
+                {
+                    end = true;
+                }
+            }
+        }
+
+        return end;
+    }
+
+    int GetWinningPlayer()
+    {
+        int winningID = -1;
+        int goldCount = 0;
+
+        for(int i = 0; i < players.Count; i++)
+        {
+            if(players[i].goldCount > goldCount)
+            {
+                winningID = i;
+                goldCount = players[i].goldCount;
+            }
+        }
+
+        return winningID;
+    }
 }

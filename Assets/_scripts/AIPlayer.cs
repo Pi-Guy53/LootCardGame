@@ -6,17 +6,19 @@ public class AIPlayer : Player
 {
     public bool topOfBoard;
 
-    private Battle[] allBattles;
+    private Battle[] allBattlesArray;
 
     private List<PirateCard> pirates;
     private List<MerchantCard> merchants;
     private List<CaptainCard> captains;
 
+    private List<Battle> allBattles;
+
     int tempGoldCount;
 
     private void Start()
     {
-
+        
     }
 
     public override void StartTurn()
@@ -33,7 +35,15 @@ public class AIPlayer : Player
 
         fillLists();
 
-        Invoke("PlayPirateFromHand", 1f);
+        allBattlesArray = FindObjectsOfType<Battle>();
+        allBattles = new List<Battle>();
+
+        for(int i = 0; i < allBattlesArray.Length; i++)
+        {
+            allBattles.Add(allBattlesArray[i]);
+        }
+
+        Invoke("PlayPirateFromHand", .3333f);
     }
 
     void fillLists()
@@ -121,7 +131,8 @@ public class AIPlayer : Player
         {
             print("not null");
 
-            if (b.checkPlayerIds(playerID) != 0)
+            /*
+            if (b.checkPlayerIds(playerID) == 1)
             {
                 print("continuing a battle");
 
@@ -130,15 +141,23 @@ public class AIPlayer : Player
                     return;
                 }
             }
+            */
 
-            print("choose a pirate to join a new battle");
+            print("++++ choose a pirate to join a new battle $" + b.goldValue);
             print(pirates.Count + " pirates avalible");
 
             for (int i = 0; i < pirates.Count; i++)
             {
-                if (b.isColorFree(pirates[i].color) || b.checkPlayerIds(playerID) > 0)
+                bool colorFree = b.isColorFree(pirates[i].color, playerID);
+
+                print(colorFree);
+
+                if (colorFree)
                 {
-                    print("Color is free");
+                    print(pirates[i].color + " : " + b.checkPlayerColor(playerID, pirates[i].color) + " : " + b.getColorToModify(pirates[i].color).playerID);
+
+                    Loot.S.waitingForPlayerInput = true;
+                    Loot.S.cardToAddToBattle = pirates[i];
 
                     if (Loot.S.SelectedBattle(b))
                     {
@@ -154,6 +173,8 @@ public class AIPlayer : Player
             }
 
         }
+
+        allBattles.Remove(b);
 
         couldNotJoinHighestBattle();
     }
@@ -203,15 +224,12 @@ public class AIPlayer : Player
     {
         print("chooseing battle");
 
-        allBattles = FindObjectsOfType<Battle>();
-        fillLists();
         tempGoldCount = 0;
-
         Battle highestValueBattle = null;
 
-        if (allBattles.Length > 0)
+        if (allBattles.Count > 0)
         {
-            for (int i = 0; i < allBattles.Length; i++)
+            for (int i = 0; i < allBattles.Count; i++)
             {
                 if (allBattles[i].winningPlayerColor() == playerID || allBattles[i].winningOwner(playerID))
                 {
@@ -248,7 +266,7 @@ public class AIPlayer : Player
 
         if (topOfBoard)
         {
-            homeWaterPos = homeWaters.transform.position + (Vector3.right * (5 - battles.Count));
+            homeWaterPos = homeWaters.transform.position + (Vector3.right * (5 - battles.Count) * 3);
         }
         else
         {

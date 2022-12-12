@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -15,16 +16,22 @@ public class Player : MonoBehaviour
 
     public int goldCount;
 
+    public Text goldTxt;
+
     private void Start()
     {
         battles = new List<Battle>();
+        AddGold(0);
     }
 
     public void AddGold(int amount)
     {
         goldCount += amount;
 
-        print("player[" + playerID + "] gold count = " + goldCount);
+        if (goldTxt != null)
+        {
+            goldTxt.text = "$" + goldCount;
+        } 
     }
 
     public virtual void StartTurn()
