@@ -107,7 +107,7 @@ Material:
     - _ZWrite: 1
     - _baseTwirlStrength: 3.25
     - _twirlStrength: 0.025
-    - _waveScale: 8
+    - _waveScale: 50
     - _waveStrength: 0.15
     m_Colors:
     - _BaseColor: {r: 0.2783019, g: 0.5443397, b: 1, a: 1}

@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         battles = new List<Battle>();
-        AddGold(0);
+        goldCount = 0;
     }
 
     public void AddGold(int amount)

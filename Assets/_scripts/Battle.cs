@@ -344,6 +344,8 @@ public class Battle : MonoBehaviour
 
             cd.sortingOrder = 5 * cardsInBattle;
             cd.state = cardState.battle;
+
+            cd.faceUp = true;
         }
         else if (cd.GetComponent<CaptainCard>())
         {
@@ -365,6 +367,8 @@ public class Battle : MonoBehaviour
 
             cd.sortingOrder = 5 * cardsInBattle;
             cd.state = cardState.battle;
+
+            cd.faceUp = true;
         }
     }
 

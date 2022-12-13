@@ -94,6 +94,8 @@ public class Loot : MonoBehaviour
             {
                 players[p].drawCard(Draw());
             }
+
+            players[p].AddGold(0);
         }
 
         players[0].StartTurn();
