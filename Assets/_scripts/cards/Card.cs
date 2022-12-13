@@ -15,6 +15,8 @@ public class Card : MonoBehaviour
 
     private int sortOrder;
 
+    public Transform destination;
+
     public bool faceUp
     {
         get
@@ -93,6 +95,20 @@ public class Card : MonoBehaviour
     public void OnMouseUpAsButton()
     {
         Loot.S.CardClicked(this, true);
+    }
+
+    private void Update()
+    {
+        if(destination != null)
+        {
+            transform.position = Vector3.Lerp(transform.position, destination.position, .25f);
+
+            if (Vector3.Distance(transform.position, destination.position) < .1f)
+            {
+                transform.position = destination.position;
+                destination = null;
+            }
+        }
     }
 
 }

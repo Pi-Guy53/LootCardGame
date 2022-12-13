@@ -36,4 +36,20 @@ public class ColorToPlayer : MonoBehaviour
     {
         return playerID != -1;
     }
+
+    public static int CompareTo(ColorToPlayer a, ColorToPlayer b)
+    {
+        if(a.strength > b.strength)
+        {
+            return 1;
+        }
+        else if(a.strength < b.strength)
+        {
+            return -1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }

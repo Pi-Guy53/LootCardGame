@@ -62,17 +62,15 @@ public class Battle : MonoBehaviour
                 if (i == -1)
                 {
                     print("owner won");
-                    Loot.S.AwardGoldToID(battleOwner, goldValue);
+                    Loot.S.AwardGoldToID(battleOwner, goldValue, transform.position);
                 }
                 else
                 {
                     print("highest score won");
-                    Loot.S.AwardGoldToID(i, goldValue);
+                    Loot.S.AwardGoldToID(i, goldValue, transform.position);
                 }
 
-                print("destoyed?");
-
-                Destroy(gameObject); //TEMP
+                Destroy(gameObject);
             }
         }
     }
@@ -122,22 +120,17 @@ public class Battle : MonoBehaviour
             activeColors.Add(purple);
         }
 
-        if(activeColors.Count > 1)
+        activeColors.Sort(ColorToPlayer.CompareTo);
+
+        if (activeColors.Count > 1)
         {
-            for(int x = 0; x < activeColors.Count; x++)
+            if (activeColors[activeColors.Count - 1].strength == activeColors[activeColors.Count - 2].strength)
             {
-                for(int y = 0; y < activeColors.Count; y++)
-                {
-                    if(activeColors[x].strength == activeColors[y].strength && activeColors[x] != activeColors[y])
-                    {
-                        return true;
-                    }
-                }
+                return true;
             }
         }
 
         return false;
-
     }
 
     public int winningPlayerColor()
@@ -345,7 +338,9 @@ public class Battle : MonoBehaviour
 
             cd.transform.SetParent(getColorToModify(cd.GetComponent<PirateCard>().color).transform);
             cd.transform.localScale = new Vector3(.9f, .9f, .9f);
-            cd.transform.position = cd.transform.transform.parent.position;
+
+            cd.destination = cd.transform.parent;
+            //cd.transform.position = cd.transform.transform.parent.position;
 
             cd.sortingOrder = 5 * cardsInBattle;
             cd.state = cardState.battle;
@@ -364,7 +359,9 @@ public class Battle : MonoBehaviour
             }
 
             cd.transform.localScale = new Vector3(.9f, .9f, .9f);
-            cd.transform.position = cd.transform.transform.parent.position;
+
+            cd.destination = cd.transform.parent;
+            //cd.transform.position = cd.transform.transform.parent.position;
 
             cd.sortingOrder = 5 * cardsInBattle;
             cd.state = cardState.battle;

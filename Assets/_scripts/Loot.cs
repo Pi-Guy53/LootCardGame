@@ -28,6 +28,8 @@ public class Loot : MonoBehaviour
 
     public GameObject cardHighlight;
 
+    public GameObject PassTurnButton;
+
     private void Awake()
     {
         S = this;
@@ -49,6 +51,7 @@ public class Loot : MonoBehaviour
         players.Add(AIPlayerTop);
 
         cardHighlight.SetActive(false);
+        PassTurnButton.SetActive(false);
 
         startGame();
     }
@@ -248,6 +251,14 @@ public class Loot : MonoBehaviour
         }
     }
 
+    public void humanPlayerPassedTurn()
+    {
+        if(currentTurn == 0)
+        {
+            PassTurn();
+        }
+    }
+
     void PassTurn()
     {
         if (CheckWinConditions())
@@ -273,6 +284,13 @@ public class Loot : MonoBehaviour
             {
                 battles[i].newTurn(currentTurn);
             }
+
+            if(deck.Count <= 0)
+            {
+                PassTurnButton.SetActive(true);
+            }
+
+            print("///////======== New Turn ========////////");
         }
     }
 
@@ -281,10 +299,10 @@ public class Loot : MonoBehaviour
         return players[id];
     }
 
-    public void AwardGoldToID(int playerID, int amount)
+    public void AwardGoldToID(int playerID, int amount, Vector3 shipPos)
     {
         GameObject thisCoin = Instantiate(goldCoin);
-        thisCoin.transform.position = Vector3.zero;
+        thisCoin.transform.position = shipPos;
 
         thisCoin.GetComponent<CoinAnimation>().startMovement(players[playerID].transform);
 

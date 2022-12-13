@@ -15,7 +15,7 @@ public class CoinAnimation : MonoBehaviour
     {
         if(destination != null)
         {
-            transform.position = Vector3.Lerp(transform.position, destination.position, .1f);
+            transform.position = Vector3.Lerp(transform.position, destination.position, .25f);
 
             if(Vector3.Distance(transform.position, destination.position) < 1)
             {

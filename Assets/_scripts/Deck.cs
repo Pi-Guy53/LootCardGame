@@ -177,6 +177,8 @@ public class Deck : MonoBehaviour
 
             pip.transform.position = pipPos;
             pip.transform.parent = thisPirate.transform;
+
+            pip.GetComponent<SpriteRenderer>().color = SelectColor.getColor(color) + new Color(.25f, .25f, .25f, 1);
         }
 
         for (int i = 0; i < str; i++)
@@ -190,6 +192,9 @@ public class Deck : MonoBehaviour
 
             pip.transform.position = pipPos;
             pip.transform.parent = thisPirate.transform;
+
+            pip.GetComponent<SpriteRenderer>().color = SelectColor.getColor(color) + new Color(.25f, .25f, .25f, 1);
+
         }
 
         getFaceDecor(pirateShip, thisPirate.transform);
