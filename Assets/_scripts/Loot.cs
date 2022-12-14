@@ -25,10 +25,15 @@ public class Loot : MonoBehaviour
     public GameObject battleUI;
 
     public Card cardToAddToBattle;
+    public Card cardToDiscard;
+    private bool waitingToDiscard;
 
     public GameObject cardHighlight;
-
     public GameObject PassTurnButton;
+
+    public GameObject winScreen;
+    public Text winTxt;
+    public Text promptTxt;
 
     private void Awake()
     {
@@ -45,13 +50,16 @@ public class Loot : MonoBehaviour
 
         initDeck.MoveDeck(drawPile.position);
 
-        players.Add(humanPlayerPrefab);
-        players.Add(AIPlayerLeft);
-        players.Add(AIPlayerRight);
-        players.Add(AIPlayerTop);
+        players.Add(humanPlayerPrefab); //player 0
+        players.Add(AIPlayerLeft); //player 1
+        players.Add(AIPlayerTop); //player 2
+        players.Add(AIPlayerRight); //player 3
 
         cardHighlight.SetActive(false);
         PassTurnButton.SetActive(false);
+
+        winTxt.text = "";
+        promptTxt.text = "";
 
         startGame();
     }
@@ -74,14 +82,6 @@ public class Loot : MonoBehaviour
         Card cd = deck[0];
         deck.RemoveAt(0);
         return cd;
-    }
-
-    void discardCard(Card cd)
-    {
-        cd.transform.parent = discardPile;
-        cd.transform.position = discardPile.position;
-        cd.faceUp = true;
-        cd.state = cardState.discard;
     }
 
     public void startGame()
@@ -167,8 +167,6 @@ public class Loot : MonoBehaviour
 
     public bool SelectedBattle(Battle battle)
     {
-        print(waitingForPlayerInput);
-
         if (waitingForPlayerInput)
         {
             if (battle.addToBattle(currentTurn, cardToAddToBattle))
@@ -190,9 +188,42 @@ public class Loot : MonoBehaviour
             deselectCard();
         }
 
-        print("No Player Input");
+        print("////// [No Player Input] ///////");
 
         return false;
+    }
+
+    //Discard pile/button clicked
+    public void DiscardClicked()
+    {
+        waitingToDiscard = true;
+
+        promptTxt.text = "Selecte a Pirate or Captain card to Discard";
+    }
+
+    void discardCard(Card cd)
+    {
+        if(players[currentTurn].discardCard(cd))
+        {
+            cd.transform.parent = discardPile;
+            cd.transform.position = discardPile.position;
+            cd.faceUp = true;
+            cd.state = cardState.discard;
+
+            promptTxt.text = "";
+            waitingToDiscard = false;
+
+            deselectCard();
+            PassTurn();
+        }
+        else
+        {
+            print("[ERROR] cannot discard: card not found");
+
+            promptTxt.text = "";
+            deselectCard();
+            waitingToDiscard = false;
+        }
     }
 
     public void BattleClicked(Card cd)
@@ -240,11 +271,25 @@ public class Loot : MonoBehaviour
             }
             else if (cd.GetComponent<PirateCard>())
             {
-                BattleClicked(cd);
+                if (waitingToDiscard == true)
+                {
+                    discardCard(cd);
+                }
+                else
+                {
+                    BattleClicked(cd);
+                }
             }
             else if (cd.GetComponent<CaptainCard>())
             {
-                BattleClicked(cd);
+                if (waitingToDiscard == true)
+                {
+                    discardCard(cd);
+                }
+                else
+                {
+                    BattleClicked(cd);
+                }
             }
         }
         else
@@ -266,6 +311,8 @@ public class Loot : MonoBehaviour
         if (CheckWinConditions())
         {
             print("====++++==== GAME OVER Player[" + GetWinningPlayer() + "] WON ====++++====");
+
+            winTxt.text = "GAME OVER \n Player[" + GetWinningPlayer() + "] Won The Game!";
         }
         else
         {

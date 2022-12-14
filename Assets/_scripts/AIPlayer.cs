@@ -231,7 +231,7 @@ public class AIPlayer : Player
         {
             for (int i = 0; i < allBattles.Count; i++)
             {
-                if (allBattles[i].winningPlayerColor() == playerID || allBattles[i].winningOwner(playerID))
+                if ((allBattles[i].winningPlayerColor() == playerID || allBattles[i].winningOwner(playerID)) && !allBattles[i].TiedStrength())
                 {
                     //skip over
                 }
@@ -250,6 +250,29 @@ public class AIPlayer : Player
         return highestValueBattle;
     }
 
+    Card chooseLowestPirateCard()
+    {
+        int tempStr = 6;
+        Card toReturn = null;
+
+        if (pirates.Count > 1)
+        {
+            for (int i = 0; i < pirates.Count; i++)
+            {
+                if (pirates[i].strength < tempStr)
+                {
+                    tempStr = pirates[i].strength;
+                    toReturn = pirates[i];
+                }
+            }
+        }
+        else if(captains.Count > 0)
+        {
+            toReturn = captains[0];
+        }
+
+        return toReturn;
+    }
     /**
      * Actions: 
      * Draw Card (no card limit)

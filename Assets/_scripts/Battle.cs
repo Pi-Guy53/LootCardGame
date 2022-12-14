@@ -80,7 +80,7 @@ public class Battle : MonoBehaviour
         ui = _ui;
     }
 
-    bool TiedStrength()
+    public bool TiedStrength()
     {
         List<ColorToPlayer> activeColors = new List<ColorToPlayer>();
 

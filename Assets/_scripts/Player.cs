@@ -95,4 +95,21 @@ public class Player : MonoBehaviour
 
         return false;
     }
+
+    //compare method
+    public static int CompareTo(Player a, Player b)
+    {
+        if (a.goldCount > b.goldCount)
+        {
+            return 1;
+        }
+        else if (a.goldCount < b.goldCount)
+        {
+            return -1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }

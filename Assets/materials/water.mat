@@ -107,7 +107,7 @@ Material:
     - _ZWrite: 1
     - _baseTwirlStrength: 3.25
     - _twirlStrength: 0.025
-    - _waveScale: 50
+    - _waveScale: 30
     - _waveStrength: 0.15
     m_Colors:
     - _BaseColor: {r: 0.2783019, g: 0.5443397, b: 1, a: 1}
@@ -115,7 +115,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _baseColor: {r: 0, g: 0.34212565, b: 1, a: 0}
-    - _time: {r: 0.002, g: 0.001, b: 0, a: 0}
+    - _time: {r: 0.02, g: 0.01, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7805861365061799245
 MonoBehaviour:
