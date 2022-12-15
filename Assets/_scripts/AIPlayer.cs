@@ -250,6 +250,14 @@ public class AIPlayer : Player
         return highestValueBattle;
     }
 
+    public void DiscardLowestPirate()
+    {
+        if (discardCard(chooseLowestPirateCard()))
+        {
+            print("discarded lowest card");
+        }
+    }
+
     Card chooseLowestPirateCard()
     {
         int tempStr = 6;

@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 
         if (goldTxt != null)
         {
-            goldTxt.text = "$" + goldCount;
+            goldTxt.text = "[" + playerID + "]: $" + goldCount;
         } 
     }
 

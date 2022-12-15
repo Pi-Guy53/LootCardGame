@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Loot : MonoBehaviour
 {
@@ -31,9 +32,12 @@ public class Loot : MonoBehaviour
     public GameObject cardHighlight;
     public GameObject PassTurnButton;
 
-    public GameObject winScreen;
     public Text winTxt;
     public Text promptTxt;
+
+    public Image timer;
+    private float countDown;
+    public float reloadDelay;
 
     private void Awake()
     {
@@ -61,6 +65,9 @@ public class Loot : MonoBehaviour
         winTxt.text = "";
         promptTxt.text = "";
 
+        countDown = reloadDelay * 2;
+        timer.gameObject.SetActive(false);
+
         startGame();
     }
 
@@ -74,6 +81,12 @@ public class Loot : MonoBehaviour
         else
         {
             cardHighlight.SetActive(false);
+        }
+
+        if(countDown < reloadDelay)
+        {
+            countDown += Time.deltaTime;
+            timer.fillAmount = (1 / reloadDelay) * countDown;
         }
     }
 
@@ -107,6 +120,11 @@ public class Loot : MonoBehaviour
         {
             players[id].drawCard(Draw());
         }
+        else
+        {
+            players[id].GetComponent<AIPlayer>().DiscardLowestPirate();
+        }
+
         PassTurn();//Pass turn
     }
 
@@ -310,9 +328,14 @@ public class Loot : MonoBehaviour
     {
         if (CheckWinConditions())
         {
+            int winningP = GetWinningPlayer();
             print("====++++==== GAME OVER Player[" + GetWinningPlayer() + "] WON ====++++====");
 
-            winTxt.text = "GAME OVER \n Player[" + GetWinningPlayer() + "] Won The Game!";
+            winTxt.text = "GAME OVER \n Player[" + winningP + "] Won The Game! \n with " + players[winningP].goldCount + " Gold";
+            countDown = 0;
+            timer.gameObject.SetActive(true);
+
+            Invoke("reloadScene", 3f);
         }
         else
         {
@@ -341,6 +364,11 @@ public class Loot : MonoBehaviour
 
             print("///////======== New Turn ========////////");
         }
+    }
+
+    void reloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public Player getPlayerFromId(int id)
