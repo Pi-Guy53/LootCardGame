@@ -335,7 +335,7 @@ public class Loot : MonoBehaviour
             countDown = 0;
             timer.gameObject.SetActive(true);
 
-            Invoke("reloadScene", 3f);
+            Invoke("reloadScene", reloadDelay);
         }
         else
         {

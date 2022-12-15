@@ -313,6 +313,32 @@ public class AIPlayer : Player
             }
         }
 
+        for (int i = 0; i < battles.Count; i++)
+        {
+            if (homeWaterPos == battles[i].transform.position)
+            {
+                int battleC = battles.Count + 1;
+
+                if (topOfBoard)
+                {
+                    homeWaterPos = homeWaters.transform.position + (Vector3.right * (5 - battleC) * 3);
+                }
+                else
+                {
+                    if (battleC % 2 == 0)
+                    {
+                        homeWaterPos.x = homeWaters.transform.position.x;
+                        homeWaterPos.y = (homeWaters.transform.position.y) + (battleC - 1) * 2.25f;
+                    }
+                    else
+                    {
+                        homeWaterPos.x = homeWaters.transform.position.x + 4;
+                        homeWaterPos.y = (homeWaters.transform.position.y) + (battleC) * 2.25f;
+                    }
+                }
+            }
+        }
+
         return homeWaterPos;
     }
 
